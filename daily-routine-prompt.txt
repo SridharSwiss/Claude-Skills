@@ -1,0 +1,76 @@
+ROLE
+You are running unattended as a daily routine on the SridharSwiss/AI repo, which
+powers sridhar-ai.ch. Use your research and writing skills. Work deterministically —
+there is no human to approve steps mid-run.
+
+STEP 0 — BRANCH
+Check out branch `claude/upbeat-feynman-HrqTF`; create it from the default branch if
+it doesn't exist. All work stays on this branch. Do NOT push and do NOT open a pull
+request — you will stop before committing (see STEP 5).
+
+STEP 1 — DISCOVER & MAP (do this before touching anything)
+Map the real codebase and write the map into a scratch note you keep for the run:
+  - Locate the five list screens: Tools, Companies, Case Studies, Toolkits,
+    Compliance. Record each screen's route/page file, the component(s) that render
+    its list, and the data source backing it (e.g. JSON/MD/MDX/CMS/DB file or
+    fetcher).
+  - For each screen, record the exact data model of an existing item: every field,
+    type, and which fields are required vs optional. This is your "shape" contract.
+  - Locate every place a count is shown (home/main screen and each individual
+    screen). Record file + variable, and whether each count is hardcoded or derived.
+  - Identify the build, lint, and test commands from package.json / config.
+If any of the five screens cannot be located, DO NOT invent it — note it as
+"Not found" in the final summary and continue with the ones you did find.
+
+STEP 2 — PER SCREEN (run a→e fully for one screen before starting the next)
+  a. INVENTORY: list the items currently on the screen.
+  b. MANDATORY SET: infer which items are mandatory from the criteria the existing
+     items already satisfy and the design conventions on that screen. Do not invent
+     new categories or criteria.
+  c. GAP: identify missing mandatory items; for each, gather the full detail the
+     screen's data shape (from Step 1) requires.
+  d. IMPLEMENT: add missing items using the EXACT data shape, component structure,
+     formatting, and styling of existing entries. Additive only — do not delete,
+     reorder, or restyle existing items.
+  e. VERIFY: confirm the screen renders and stays 100% compliant with the current
+     design (same structure, no schema drift, no layout break).
+
+STEP 3 — COUNTS
+Using the count locations mapped in Step 1, update every count (main screen and each
+individual screen) to the new totals. Re-grep the codebase to confirm no count was
+missed.
+
+STEP 4 — DEPENDENCIES
+For every file touched, trace and update dependencies: shared data files, indexes,
+type/interface definitions, filters, search/sort logic, sitemaps, snapshots, and any
+generated output.
+
+STEP 5 — VALIDATE & STOP BEFORE COMMIT (do NOT commit or push)
+  1. Run the build, lint, and tests found in Step 1. Fix anything you broke. They
+     must pass.
+  2. Stage all changes (git add) but DO NOT commit and DO NOT push. Leave the working
+     tree ready so a human can review the diff and approve the commit.
+  3. Output a proposed commit message (summarizing additions per screen + count
+     updates) for the human to approve.
+  4. End the run here and wait. A human will review this run's session, and if they
+     reply "commit and push", THEN commit the staged changes with the approved
+     message and push to `claude/upbeat-feynman-HrqTF`. Only push to that branch;
+     never to the default branch; never open a pull request.
+
+GUARDRAILS
+  - Additive changes only; never delete/restyle existing compliant content.
+  - If a "mandatory" item is genuinely ambiguous, or required data can't be verified,
+    DO NOT guess — skip it and list it under "Deferred" with the reason.
+  - If an item would need a large refactor or change the design system, STOP that
+    item, leave it unimplemented, and document why.
+  - Keep all item data faithful to verifiable sources; never fabricate details.
+
+FINAL SUMMARY (always output, even if nothing changed)
+  - The Step 1 map (screens → files → data source).
+  - Per screen: items added (count), counts before → after.
+  - Every count location updated.
+  - Dependencies touched.
+  - Deferred / skipped items, each with a reason.
+  - Any screen marked "Not found".
+  - The proposed commit message, and a one-line note: "Reply 'commit and push' to
+    finalize."
