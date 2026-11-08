@@ -113,9 +113,36 @@ const strand=(x1,y1,x2,y2,sag,n,ph)=>{
     el(fg,'circle',{cx:x,cy:y+6,r:16*s,fill:'url(#bulb)',opacity:.85});
     el(fg,'circle',{cx:x,cy:y+6,r:3.2*s,fill:'#fffbe6'});}
 };
-strand(-20,10,1100,10,120,30,0);
-strand(-20,0,560,-10,70,14,1);
-strand(520,-10,1100,0,70,14,2);
+// ---- fireworks in the sky (behind the arch and text) ----
+const burst=(cx,cy,r,cols,n,op=1)=>{const g=el(bg,'g',{opacity:op});
+  el(g,'circle',{cx,cy,r:r*.75,fill:cols[0],opacity:.10,filter:'url(#b8)'});
+  for(let i=0;i<n;i++){const a=i/n*Math.PI*2+R()*.08, L=r*(.82+R()*.22), c=cols[i%cols.length];
+    const x1=cx+Math.cos(a)*r*.12, y1=cy+Math.sin(a)*r*.12, x2=cx+Math.cos(a)*L, y2=cy+Math.sin(a)*L+L*.05;
+    // streak made of fading dots (chrysanthemum trail)
+    for(let k=0;k<7;k++){const t=.3+k*.1, x=x1+(x2-x1)*t, y=y1+(y2-y1)*t+t*t*L*.04;
+      el(g,'circle',{cx:x,cy:y,r:.7+k*.28,fill:c,opacity:.25+k*.1});}
+    el(g,'circle',{cx:x2,cy:y2+L*.04,r:2.6,fill:'#fffaf0'});
+    el(g,'circle',{cx:x2,cy:y2+L*.04,r:6,fill:c,opacity:.45,filter:'url(#b1)'});}
+  // inner ring
+  for(let i=0;i<Math.round(n*.55);i++){const a=i/(n*.55)*Math.PI*2+.15,L=r*.48;
+    el(g,'line',{x1:cx+Math.cos(a)*r*.12,y1:cy+Math.sin(a)*r*.12,x2:cx+Math.cos(a)*L,y2:cy+Math.sin(a)*L,stroke:cols[(i+1)%cols.length],'stroke-width':1.3,opacity:.75,'stroke-linecap':'round'});
+    el(g,'circle',{cx:cx+Math.cos(a)*L,cy:cy+Math.sin(a)*L,r:1.8,fill:'#fff'});}
+  el(g,'circle',{cx,cy,r:4,fill:'#fff'});el(g,'circle',{cx,cy,r:14,fill:cols[0],opacity:.5,filter:'url(#b3)'});
+};
+const trail=(x,y1,y2)=>{for(let k=0;k<14;k++){const t=k/13;el(bg,'circle',{cx:x+Math.sin(t*3)*3,cy:y1+(y2-y1)*t,r:.6+t*1.6,fill:'#ffd77a',opacity:.15+t*.6});}};
+const GOLD=['#ffd77a','#ffb347','#fff1c1'], ROSE=['#ff5d9e','#ffd1e3','#ff8fb8'], TEAL=['#5ef2d6','#c9fff4','#7fd8ff'], VIOLET=['#b388ff','#e3d4ff','#8c6cff'];
+burst(150,120,135,GOLD,40);
+burst(930,115,145,[...ROSE,'#ffd77a'],42);
+burst(395,62,78,TEAL,28,.95);
+burst(690,58,82,GOLD,28,.95);
+burst(540,150,60,VIOLET,22,.55);
+burst(40,330,70,VIOLET,24,.85);
+burst(1045,330,72,TEAL,24,.85);
+burst(240,212,40,ROSE,18,.6);
+burst(842,212,42,GOLD,18,.6);
+trail(240,290,230); trail(842,300,232);
+// tiny distant sparkles
+for(let i=0;i<40;i++) el(bg,'circle',{cx:R()*1080,cy:R()*280,r:R()*1.6+.4,fill:['#ffd77a','#ff8fb8','#7fd8ff'][i%3],opacity:.6});
 
 // ornamental divider between title and message
 const dv=el(fg,'g',{transform:'translate(540 664)'});
@@ -254,7 +281,7 @@ el(pf,'ellipse',{cx:0,cy:-28,rx:4.5,ry:6.5,fill:'#1d3fa8'});
 
 // gold sparkles
 const sparkle=(x,y,s,o)=>el(fg,'path',{d:'M0,-1 L.18,-.18 1,0 .18,.18 0,1 -.18,.18 -1,0 -.18,-.18Z',fill:'#fff3c4',opacity:o,transform:`translate(${x} ${y}) scale(${s})`});
-[[200,250,14,.9],[880,250,16,.9],[110,620,10,.7],[975,640,12,.7],[120,960,9,.6],[960,940,10,.6]].forEach(a=>sparkle(...a));
+[[110,620,10,.7],[975,640,12,.7],[120,960,9,.6],[960,940,10,.6]].forEach(a=>sparkle(...a));
 </script>
 </body>
 </html>
