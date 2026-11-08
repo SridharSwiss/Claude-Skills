@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Great+Vibes&display=block" rel="stylesheet">
+<style>
+  html,body{margin:0;padding:0;background:#12061f}
+  #card{position:relative;width:1080px;height:1350px;overflow:hidden;
+    background:
+      radial-gradient(120% 70% at 50% 108%, #ff8a00 0%, #e8366b 28%, #7a1fa2 52%, rgba(40,10,70,0) 75%),
+      linear-gradient(180deg,#0b0420 0%,#22083d 45%,#4a0d55 100%);
+    font-family:'Bricolage Grotesque',sans-serif;color:#fff}
+  svg{position:absolute;inset:0}
+  .txt{position:absolute;left:0;right:0;text-align:center}
+  .hindi{top:640px;font-family:'Yatra One',cursive;font-size:118px;line-height:1;
+    background:linear-gradient(180deg,#fff6c9 0%,#ffd34d 45%,#ff9a1f 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    filter:drop-shadow(0 0 18px rgba(255,190,60,.65)) drop-shadow(0 6px 0 #8a1a4a)}
+  .eng{top:778px;font-family:'Great Vibes',cursive;font-size:104px;line-height:1;color:#fff;
+    text-shadow:0 0 14px #ff4fa3,0 0 34px #ff2d87,0 0 60px #ff6a00}
+  .pill{top:912px;}
+  .pill span{display:inline-block;padding:12px 30px;border-radius:999px;font-weight:800;font-size:26px;
+    letter-spacing:.28em;text-transform:uppercase;color:#2a0838;
+    background:linear-gradient(90deg,#ffe066,#ffb703,#ff7ab6);box-shadow:0 0 30px rgba(255,183,3,.55)}
+  .msg{top:985px;font-size:33px;font-weight:500;line-height:1.38;padding:0 120px;color:#ffeef7;
+    text-shadow:0 2px 12px rgba(0,0,0,.45)}
+  .tags{top:1290px;font-size:22px;font-weight:800;letter-spacing:.12em;color:rgba(255,240,210,.85)}
+</style>
+</head>
+<body>
+<div id="card">
+  <svg id="sky" width="1080" height="1350" viewBox="0 0 1080 1350"></svg>
+  <svg id="fg" width="1080" height="1350" viewBox="0 0 1080 1350"></svg>
+  <div class="txt hindi">शुभ दीपावली</div>
+  <div class="txt eng">Happy Diwali</div>
+  <div class="txt pill"><span>Light · Love · Laddoos</span></div>
+  <div class="txt msg">May every diya you light tonight glow back as<br>joy, good health &amp; a whole lot of abundance ✨</div>
+  <div class="txt tags">#HappyDiwali2026 · #FestivalOfLights · 08.11.2026</div>
+</div>
+<script>
+const NS='http://www.w3.org/2000/svg';
+let seed=2026;const R=()=>{seed=(seed*16807)%2147483647;return (seed-1)/2147483646};
+const el=(p,t,a)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);p.appendChild(e);return e};
+const sky=document.getElementById('sky'), fg=document.getElementById('fg');
+
+// defs
+const defs=el(sky,'defs',{});
+defs.innerHTML=`
+ <radialGradient id="glow"><stop offset="0" stop-color="#fff3b0"/><stop offset=".35" stop-color="#ffb703" stop-opacity=".8"/><stop offset="1" stop-color="#ff5400" stop-opacity="0"/></radialGradient>
+ <radialGradient id="bokeh"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+ <linearGradient id="lantern" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe08a"/><stop offset=".6" stop-color="#ff8c1a"/><stop offset="1" stop-color="#d9480f"/></linearGradient>
+ <linearGradient id="clay" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff9e3d"/><stop offset=".5" stop-color="#c2410c"/><stop offset="1" stop-color="#6b1d0a"/></linearGradient>
+ <radialGradient id="flame" cx=".5" cy=".7" r=".6"><stop offset="0" stop-color="#fff"/><stop offset=".35" stop-color="#ffe066"/><stop offset=".75" stop-color="#ff8800"/><stop offset="1" stop-color="#ff3d00"/></radialGradient>
+ <filter id="blur6"><feGaussianBlur stdDeviation="6"/></filter>
+ <filter id="blur2"><feGaussianBlur stdDeviation="1.4"/></filter>`;
+const fdefs=el(fg,'defs',{}); fdefs.innerHTML=defs.innerHTML;
+
+// stars
+for(let i=0;i<140;i++) el(sky,'circle',{cx:R()*1080,cy:R()*620,r:R()*1.8+.3,fill:'#fff',opacity:R()*.7+.2});
+
+// fireworks
+const fw=(cx,cy,r,cols,n)=>{
+  const g=el(sky,'g',{});
+  el(g,'circle',{cx,cy,r:r*.9,fill:cols[0],opacity:.12,filter:'url(#blur6)'});
+  for(let ring=0;ring<2;ring++){
+    const rr=r*(ring?0.6:1), nn=ring?Math.round(n*.6):n;
+    for(let i=0;i<nn;i++){
+      const a=i/nn*Math.PI*2+ring*.2, c=cols[(i+ring)%cols.length];
+      const x1=cx+Math.cos(a)*rr*.25,y1=cy+Math.sin(a)*rr*.25,x2=cx+Math.cos(a)*rr,y2=cy+Math.sin(a)*rr+ (ring?0:rr*.06);
+      el(g,'line',{x1,y1,x2,y2,stroke:c,'stroke-width':ring?2:2.6,'stroke-linecap':'round',opacity:.9});
+      el(g,'circle',{cx:x2,cy:y2,r:ring?2.6:3.6,fill:'#fff'});
+      el(g,'circle',{cx:x2,cy:y2,r:7,fill:c,opacity:.45,filter:'url(#blur2)'});
+      if(!ring){ // trailing sparkle drips
+        for(let k=1;k<4;k++) el(g,'circle',{cx:x2+Math.cos(a)*k*9,cy:y2+Math.sin(a)*k*9+k*k*3,r:2.2-k*.5,fill:c,opacity:.8-k*.2});
+      }
+    }
+  }
+  el(g,'circle',{cx,cy,r:6,fill:'#fff'});
+};
+fw(200,260,150,['#ff4fa3','#ffd166','#ff7a00'],28);
+fw(880,200,170,['#4cc9f0','#b388ff','#ffffff'],32);
+fw(560,120,95,['#80ffdb','#ffd166','#ff4fa3'],22);
+fw(960,520,90,['#ffd166','#ff5d8f'],20);
+fw(110,560,80,['#b388ff','#80ffdb'],18);
+
+// sky lanterns
+const lantern=(x,y,s,o)=>{
+  const g=el(sky,'g',{transform:`translate(${x} ${y}) scale(${s})`,opacity:o});
+  el(g,'ellipse',{cx:0,cy:10,rx:70,ry:80,fill:'url(#glow)',opacity:.55});
+  el(g,'path',{d:'M-24,-34 Q0,-44 24,-34 L18,30 Q0,36 -18,30 Z',fill:'url(#lantern)'});
+  el(g,'path',{d:'M-18,30 Q0,36 18,30',stroke:'#7c2d12','stroke-width':3,fill:'none'});
+  el(g,'ellipse',{cx:0,cy:24,rx:7,ry:9,fill:'#fff6c9'});
+};
+[[330,420,1.0,.95],[760,380,.8,.9],[640,560,.55,.75],[420,560,.45,.65],[160,410,.6,.8],[1000,360,.5,.7],[870,600,.4,.6],[520,330,.35,.55]].forEach(a=>lantern(...a));
+
+// bokeh
+for(let i=0;i<45;i++){const r=R()*18+4;el(sky,'circle',{cx:R()*1080,cy:300+R()*1050,r,fill:'url(#bokeh)',opacity:R()*.35+.1});}
+
+// ===== foreground =====
+// marigold toran (garland) at top
+const marigold=(x,y,r,c1,c2)=>{
+  const g=el(fg,'g',{});
+  for(let i=0;i<14;i++){const a=i/14*Math.PI*2;
+    el(g,'circle',{cx:x+Math.cos(a)*r*.55,cy:y+Math.sin(a)*r*.55,r:r*.5,fill:i%2?c1:c2});}
+  el(g,'circle',{cx:x,cy:y,r:r*.45,fill:c2});
+  for(let i=0;i<8;i++){const a=i/8*Math.PI*2;el(g,'circle',{cx:x+Math.cos(a)*r*.25,cy:y+Math.sin(a)*r*.25,r:r*.18,fill:c1});}
+  el(g,'circle',{cx:x,cy:y,r:r*.14,fill:'#9a3412'});
+};
+const leaf=(x,y,ang)=>el(fg,'path',{d:'M0,0 Q14,22 0,58 Q-14,22 0,0Z',fill:'#2f9e44',stroke:'#1b5e20','stroke-width':2,transform:`translate(${x} ${y}) rotate(${ang})`});
+// swag curve
+const swag=(t)=>{const x=t*1080;return [x,36+Math.sin(t*Math.PI*4)*-0+ 34*Math.abs(Math.sin(t*Math.PI*4))]};
+for(let i=0;i<=8;i++){const [x,y]=swag(i/8);leaf(x-10,y+10,18);leaf(x+10,y+10,-18);}
+for(let i=0;i<=48;i++){const t=i/48;const [x,y]=swag(t);marigold(x,y,20,i%3?'#ff9f1c':'#ffd60a',i%3?'#ffbf00':'#ff7b00');}
+// hanging strings
+[1,3,5,7].forEach(k=>{const x=k*135;const top=36;
+  for(let j=0;j<4;j++) marigold(x,top+40+j*34,15,j%2?'#ffd60a':'#ff8c00',j%2?'#ff9f1c':'#ffbf00');
+  el(fg,'path',{d:`M${x},${top+175} l-9,14 h18 z`,fill:'#e63946'});
+  el(fg,'circle',{cx:x,cy:top+196,r:5,fill:'#ffd166'});
+});
+[0,2,4,6,8].forEach(k=>{const x=k*135; for(let j=0;j<2;j++) marigold(x,76+j*30,13,'#ff8c00','#ffd60a');});
+
+// rangoli mandala behind diya
+const cx=540, cy=452;
+el(fg,'circle',{cx,cy,r:230,fill:'url(#glow)',opacity:.45});
+const ringPetals=(r,n,len,w,c,rot=0,op=1)=>{for(let i=0;i<n;i++){const a=i/n*360+rot;
+  el(fg,'path',{d:`M0,${-r} Q${w},${-r-len/2} 0,${-r-len} Q${-w},${-r-len/2} 0,${-r}Z`,fill:c,opacity:op,transform:`translate(${cx} ${cy}) rotate(${a})`});}};
+ringPetals(150,24,62,16,'#ff2d87',0,.92);
+ringPetals(150,24,44,10,'#ffd60a',7.5,.95);
+ringPetals(108,16,50,18,'#7b2cbf',0,.95);
+ringPetals(108,16,34,10,'#4cc9f0',11.25,.95);
+ringPetals(70,12,40,14,'#ff7b00',0,1);
+ringPetals(70,12,26,8,'#80ffdb',15,1);
+for(let i=0;i<48;i++){const a=i/48*Math.PI*2;el(fg,'circle',{cx:cx+Math.cos(a)*214,cy:cy+Math.sin(a)*214,r:i%2?3.5:6,fill:i%2?'#fff':'#ffd60a'});}
+el(fg,'circle',{cx,cy,r:205,fill:'none',stroke:'#ffffff','stroke-width':2,'stroke-dasharray':'2 10',opacity:.7});
+el(fg,'circle',{cx,cy,r:68,fill:'#3c096c'});
+el(fg,'circle',{cx,cy,r:68,fill:'none',stroke:'#ffd60a','stroke-width':4});
+
+// big diya at center
+const dg=el(fg,'g',{transform:`translate(${cx} ${cy+20})`});
+el(dg,'ellipse',{cx:0,cy:-70,rx:120,ry:130,fill:'url(#glow)',opacity:.9});
+el(dg,'path',{d:'M-95,-6 Q-80,48 0,52 Q80,48 95,-6 Q60,10 0,10 Q-60,10 -95,-6Z',fill:'url(#clay)'});
+el(dg,'path',{d:'M95,-6 Q118,-22 128,-30 Q112,-6 88,6Z',fill:'#c2410c'});
+el(dg,'ellipse',{cx:0,cy:-4,rx:96,ry:16,fill:'#7c2d12'});
+el(dg,'ellipse',{cx:0,cy:-6,rx:86,ry:11,fill:'#f6a609'});
+for(let i=-3;i<=3;i++) el(dg,'circle',{cx:i*22,cy:28+Math.abs(i)*-2.5,r:5,fill:i%2?'#ffd60a':'#80ffdb'});
+el(dg,'path',{d:'M-70,18 Q0,40 70,18',stroke:'#ffd60a','stroke-width':3,fill:'none','stroke-dasharray':'6 6'});
+// flame on spout
+const fx=118, fy=-34;
+el(dg,'ellipse',{cx:fx,cy:fy-40,rx:44,ry:66,fill:'#ffb703',opacity:.35,filter:'url(#blur6)'});
+el(dg,'path',{d:`M${fx},${fy-110} C${fx+30},${fy-60} ${fx+26},${fy-8} ${fx},${fy} C${fx-26},${fy-8} ${fx-30},${fy-60} ${fx},${fy-110}Z`,fill:'url(#flame)'});
+el(dg,'path',{d:`M${fx},${fy-62} C${fx+10},${fy-36} ${fx+9},${fy-10} ${fx},${fy-4} C${fx-9},${fy-10} ${fx-10},${fy-36} ${fx},${fy-62}Z`,fill:'#fff'});
+
+// row of small diyas along bottom
+const smallDiya=(x,y,s)=>{const g=el(fg,'g',{transform:`translate(${x} ${y}) scale(${s})`});
+  el(g,'ellipse',{cx:0,cy:-40,rx:50,ry:60,fill:'url(#glow)',opacity:.75});
+  el(g,'path',{d:'M-40,0 Q-32,26 0,28 Q32,26 40,0 Q20,6 0,6 Q-20,6 -40,0Z',fill:'url(#clay)'});
+  el(g,'ellipse',{cx:0,cy:0,rx:40,ry:7,fill:'#f6a609'});
+  el(g,'path',{d:'M0,-52 C14,-28 12,-6 0,-2 C-12,-6 -14,-28 0,-52Z',fill:'url(#flame)'});
+  el(g,'path',{d:'M0,-28 C5,-16 4,-6 0,-4 C-4,-6 -5,-16 0,-28Z',fill:'#fff'});
+};
+for(let i=0;i<9;i++){const x=60+i*120;smallDiya(x,1222+(i%2)*14,0.9+(i%2)*.15);}
+
+// petal confetti
+const cols=['#ffd60a','#ff2d87','#ff7b00','#80ffdb','#b388ff','#ffffff'];
+for(let i=0;i<60;i++){const x=R()*1080,y=560+R()*700; if(y>620&&y<1080&&x>110&&x<970) continue;
+  el(fg,'ellipse',{cx:x,cy:y,rx:R()*5+3,ry:R()*2.5+1.5,fill:cols[i%cols.length],opacity:.85,transform:`rotate(${R()*180} ${x} ${y})`});}
+// sparkle stars
+const sparkle=(x,y,s)=>el(fg,'path',{d:'M0,-1 L.22,-.22 1,0 .22,.22 0,1 -.22,.22 -1,0 -.22,-.22Z',fill:'#fff',transform:`translate(${x} ${y}) scale(${s})`});
+[[120,700,18],[960,720,22],[90,1000,14],[1000,980,16],[720,280,14],[380,190,12]].forEach(a=>sparkle(...a));
+</script>
+</body>
+</html>
