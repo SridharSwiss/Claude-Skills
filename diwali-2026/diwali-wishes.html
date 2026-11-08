@@ -26,9 +26,12 @@
   .punch{top:690px;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;font-size:36px;color:#ffe3a8;letter-spacing:.01em;
     text-shadow:0 0 14px rgba(255,170,80,.35)}
   .punch-te{top:742px;font-family:'Noto Serif Telugu',serif;font-weight:600;font-size:25px;color:#ffd58a;letter-spacing:.02em}
-  .wish-te{top:808px;font-family:'Noto Serif Telugu',serif;font-weight:500;font-size:25px;line-height:1.6;color:#fbe7c6;padding:0 150px}
-  .wish-en{top:900px;font-family:'Cormorant Garamond',serif;font-weight:500;font-size:27px;line-height:1.3;color:#fbe7c6;padding:0 150px}
+  .wish-te{top:808px;font-family:'Noto Serif Telugu',serif;font-weight:500;font-size:25px;line-height:1.6;color:#fbe7c6;padding:0 110px}
+  .wish-en{top:900px;font-family:'Cormorant Garamond',serif;font-weight:500;font-size:27px;line-height:1.3;color:#fbe7c6;padding:0 110px}
   .dots{top:786px;font-family:'Cinzel',serif;font-size:12px;letter-spacing:.8em;color:#e2a83c}
+  .cap{position:absolute;width:240px;text-align:center}
+  .cap .te{font-family:'Noto Serif Telugu',serif;font-weight:600;font-size:19px;color:#ffd58a;line-height:1.35}
+  .cap .en{margin-top:4px;font-family:'Cinzel',serif;font-weight:600;font-size:11px;letter-spacing:.18em;color:#e8c98a;line-height:1.5}
   .foot{top:1296px;font-family:'Cinzel',serif;font-weight:600;font-size:17px;letter-spacing:.38em;color:#f3d28c}
 </style>
 </head>
@@ -43,9 +46,11 @@
   <div class="t punch">Light over darkness. Hope over fear. Love over all.</div>
   <div class="t punch-te">చీకటిపై వెలుగు · భయంపై ఆశ · అన్నిటిపై ప్రేమ</div>
   <div class="t dots">◆ ◆ ◆</div>
-  <div class="t wish-te">లక్ష్మీదేవి కటాక్షంతో మీ ఇంట ఆయురారోగ్య<br>ఐశ్వర్యాలు వెల్లివిరియాలని మనసారా కోరుకుంటూ</div>
-  <div class="t wish-en">May Goddess Lakshmi fill your home with<br>good health, happiness &amp; abundance.</div>
+  <div class="t wish-te">శ్రీరాముని ధర్మం, శ్రీకృష్ణుని విజయం, లక్ష్మీదేవి కటాక్షం<br>మీ ఇంట ఆయురారోగ్య ఐశ్వర్యాల వెలుగులు నింపాలి</div>
+  <div class="t wish-en">May Rama’s dharma, Krishna’s triumph &amp; Lakshmi’s grace<br>fill your home with health, joy &amp; abundance.</div>
   <svg id="fg" width="1080" height="1350" viewBox="0 0 1080 1350"></svg>
+  <div class="cap" style="left:76px;top:540px"><div class="te">శ్రీరాముని<br>అయోధ్య ఆగమనం</div><div class="en">RAMA RETURNS<br>TO AYODHYA</div></div>
+  <div class="cap" style="left:764px;top:540px"><div class="te">శ్రీకృష్ణ సత్యభామల<br>నరకాసుర వధ</div><div class="en">KRISHNA &amp; SATYABHAMA<br>DEFEAT NARAKASURA</div></div>
   <div class="t foot">DEEPAVALI · 08 · 11 · 2026</div>
 </div>
 <script>
@@ -110,7 +115,7 @@ strand(520,-10,1100,0,70,14,2);
 
 // ornamental divider between title and message
 const dv=el(fg,'g',{transform:'translate(540 664)'});
-el(dv,'path',{d:'M-210,0 L-40,0 M40,0 L210,0',stroke:'url(#goldL)','stroke-width':1.4});
+el(dv,'path',{d:'M-210,0 L-40,0 M40,0 L210,0',stroke:'#e2b45a','stroke-width':1.4});
 el(dv,'path',{d:'M-30,0 L0,-10 L30,0 L0,10Z',fill:'none',stroke:'url(#goldL)','stroke-width':1.4});
 el(dv,'circle',{r:3.5,fill:'#ffe29a'});
 [-220,220].forEach(x=>el(dv,'circle',{cx:x,cy:0,r:3,fill:'#e2a83c'}));
@@ -151,9 +156,42 @@ items.forEach(([k,x,y,s])=>k=='d'?diya(fg,x,y,s):lotus(fg,x,y,s));
 // ripple rings under diyas
 items.filter(i=>i[0]=='d').forEach(([k,x,y,s])=>{for(let j=1;j<=2;j++) el(fg,'ellipse',{cx:x,cy:y+30*s,rx:60*s*j,ry:8*s*j,fill:'none',stroke:'#ffc56b','stroke-width':1,opacity:.35/j});});
 
+
+// ---- story medallions: Rama (left) & Krishna (right) ----
+const medal=(x,y)=>{const g=el(fg,'g',{transform:`translate(${x} ${y})`});
+  el(g,'circle',{r:92,fill:'url(#warm)',opacity:.28});
+  el(g,'circle',{r:70,fill:'#1e0820',opacity:.85});
+  el(g,'circle',{r:70,fill:'none',stroke:'url(#goldL)','stroke-width':2.4});
+  el(g,'circle',{r:62,fill:'none',stroke:'url(#goldL)','stroke-width':1,'stroke-dasharray':'2 5'});
+  for(let i=0;i<16;i++){el(g,'circle',{cx:0,cy:-78,r:2.4,fill:'#e2a83c',transform:`rotate(${i*22.5})`});}
+  return g;};
+// Rama: Kodanda bow + arrow, rising sun of the Surya vamsha
+const rg2=medal(196,452);
+for(let i=0;i<12;i++) el(rg2,'line',{x1:0,y1:-50,x2:0,y2:-56,stroke:'#ffcf6b','stroke-width':1.4,opacity:.5,transform:`rotate(${i*30})`});
+el(rg2,'path',{d:'M-14,-46 C30,-30 30,30 -14,46',fill:'none',stroke:'url(#goldL)','stroke-width':5,'stroke-linecap':'round'});
+el(rg2,'path',{d:'M-14,-46 C-6,-40 -2,-34 0,-30 M-14,46 C-6,40 -2,34 0,30',fill:'none',stroke:'url(#goldL)','stroke-width':3,'stroke-linecap':'round'});
+el(rg2,'line',{x1:-14,y1:-46,x2:-14,y2:46,stroke:'#ffe9b0','stroke-width':1.2});
+el(rg2,'line',{x1:-44,y1:0,x2:40,y2:0,stroke:'#f1c25e','stroke-width':3});
+el(rg2,'path',{d:'M40,-7 L54,0 L40,7 Z',fill:'#ffd77a'});
+el(rg2,'path',{d:'M-44,0 l-8,-8 M-44,0 l-8,8 M-38,0 l-8,-8 M-38,0 l-8,8',stroke:'#ffd77a','stroke-width':2});
+// Krishna: Sudarshana chakra + peacock feather
+const kg=medal(884,452);
+const ch=el(kg,'g',{transform:'translate(-4 8)'});
+for(let i=0;i<20;i++) el(ch,'path',{d:'M-5,-34 L0,-44 L5,-34Z',fill:'#ffd77a',transform:`rotate(${i*18})`});
+el(ch,'circle',{r:34,fill:'none',stroke:'url(#goldL)','stroke-width':3.5});
+el(ch,'circle',{r:24,fill:'none',stroke:'url(#goldL)','stroke-width':1.2});
+for(let i=0;i<12;i++) el(ch,'line',{x1:0,y1:-9,x2:0,y2:-32,stroke:'#f1c25e','stroke-width':2,transform:`rotate(${i*30})`});
+el(ch,'circle',{r:9,fill:'#ffd77a'});el(ch,'circle',{r:4,fill:'#1e0820'});
+const pf=el(kg,'g',{transform:'translate(26 -26) rotate(28)'});
+el(pf,'path',{d:'M0,30 Q2,0 0,-34',stroke:'#e9c46a','stroke-width':1.6,fill:'none'});
+for(let i=0;i<9;i++){const yy=24-i*6;el(pf,'path',{d:`M0,${yy} q${-12},-4 ${-14},-12 M0,${yy} q12,-4 14,-12`,stroke:'#2a9d8f','stroke-width':1.3,fill:'none',opacity:.9});}
+el(pf,'ellipse',{cx:0,cy:-30,rx:11,ry:15,fill:'#2a9d8f'});
+el(pf,'ellipse',{cx:0,cy:-29,rx:7,ry:10,fill:'#e9c46a'});
+el(pf,'ellipse',{cx:0,cy:-28,rx:4.5,ry:6.5,fill:'#1d3fa8'});
+
 // gold sparkles
 const sparkle=(x,y,s,o)=>el(fg,'path',{d:'M0,-1 L.18,-.18 1,0 .18,.18 0,1 -.18,.18 -1,0 -.18,-.18Z',fill:'#fff3c4',opacity:o,transform:`translate(${x} ${y}) scale(${s})`});
-[[200,250,14,.9],[880,250,16,.9],[110,620,10,.7],[975,640,12,.7],[250,560,8,.6],[830,540,9,.6],[120,960,9,.6],[960,940,10,.6]].forEach(a=>sparkle(...a));
+[[200,250,14,.9],[880,250,16,.9],[110,620,10,.7],[975,640,12,.7],[120,960,9,.6],[960,940,10,.6]].forEach(a=>sparkle(...a));
 </script>
 </body>
 </html>
