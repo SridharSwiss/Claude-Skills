@@ -32,7 +32,10 @@
   .cap{position:absolute;width:240px;text-align:center}
   .cap .te{font-family:'Noto Serif Telugu',serif;font-weight:600;font-size:19px;color:#ffd58a;line-height:1.35}
   .cap .en{margin-top:4px;font-family:'Cinzel',serif;font-weight:600;font-size:11px;letter-spacing:.18em;color:#e8c98a;line-height:1.5}
-  .foot{top:1296px;font-family:'Cinzel',serif;font-weight:600;font-size:17px;letter-spacing:.38em;color:#f3d28c}
+  .sig{top:1268px;font-family:'Cormorant Garamond',serif;font-weight:600;font-size:24px;color:#fff1d6;text-shadow:0 2px 10px rgba(0,0,0,.8)}
+  .sig .te{font-family:'Noto Serif Telugu',serif;font-weight:600;font-size:20px}
+  .sig i{color:#ffd58a;font-weight:500}
+  .foot{top:1310px;font-family:'Cinzel',serif;font-weight:600;font-size:13px;letter-spacing:.42em;color:#e8c98a}
 </style>
 </head>
 <body>
@@ -51,6 +54,7 @@
   <svg id="fg" width="1080" height="1350" viewBox="0 0 1080 1350"></svg>
   <div class="cap" style="left:76px;top:540px"><div class="te">శ్రీరాముని<br>అయోధ్య ఆగమనం</div><div class="en">RAMA RETURNS<br>TO AYODHYA</div></div>
   <div class="cap" style="left:764px;top:540px"><div class="te">శ్రీకృష్ణ సత్యభామల<br>నరకాసుర వధ</div><div class="en">KRISHNA &amp; SATYABHAMA<br>DEFEAT NARAKASURA</div></div>
+  <div class="t sig"><i>With warm wishes,</i> Sridhar Gande · <span class="te">శ్రీధర్ గండె</span></div>
   <div class="t foot">DEEPAVALI · 08 · 11 · 2026</div>
 </div>
 <script>
@@ -120,42 +124,101 @@ el(dv,'path',{d:'M-30,0 L0,-10 L30,0 L0,10Z',fill:'none',stroke:'url(#goldL)','s
 el(dv,'circle',{r:3.5,fill:'#ffe29a'});
 [-220,220].forEach(x=>el(dv,'circle',{cx:x,cy:0,r:3,fill:'#e2a83c'}));
 
-// ---- water with floating diyas ----
-el(fg,'rect',{x:0,y:1050,width:1080,height:300,fill:'url(#water)'});
-el(fg,'ellipse',{cx:540,cy:1080,rx:560,ry:26,fill:'#ff9a3c',opacity:.12,filter:'url(#b8)'});
-// shimmer ripples
-for(let i=0;i<70;i++){const y=1070+Math.pow(R(),1.3)*220, w=10+R()*60*(y-1040)/180, x=R()*1080;
-  el(fg,'line',{x1:x,y1:y,x2:x+w,y2:y,stroke:R()<.6?'#ffb85c':'#ff7aa8','stroke-width':1.2+R()*1.4,opacity:.15+R()*.35,'stroke-linecap':'round'});}
+// ---- extra gradients for ornate gold diyas ----
+el(fg,'defs',{}).innerHTML=`
+ <linearGradient id="gBody" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#6b3d07"/><stop offset=".14" stop-color="#b9771a"/><stop offset=".38" stop-color="#ffd76e"/><stop offset=".5" stop-color="#fff4c8"/><stop offset=".62" stop-color="#f1b93f"/><stop offset=".86" stop-color="#a8661a"/><stop offset="1" stop-color="#5a3205"/></linearGradient>
+ <linearGradient id="gShade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#000" stop-opacity="0"/><stop offset=".55" stop-color="#3a1a00" stop-opacity=".05"/><stop offset="1" stop-color="#2a1000" stop-opacity=".55"/></linearGradient>
+ <linearGradient id="gRim" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#9a5e12"/><stop offset=".5" stop-color="#ffeaa6"/><stop offset="1" stop-color="#9a5e12"/></linearGradient>
+ <radialGradient id="oil" cx=".5" cy=".35" r=".7"><stop offset="0" stop-color="#ffd27a"/><stop offset=".45" stop-color="#c8641a"/><stop offset="1" stop-color="#5a1f05"/></radialGradient>
+ <radialGradient id="bigFlame" cx=".5" cy=".78" r=".7"><stop offset="0" stop-color="#ffffff"/><stop offset=".45" stop-color="#fffbe8"/><stop offset=".72" stop-color="#ffe9a0"/><stop offset=".9" stop-color="#ffb53c"/><stop offset="1" stop-color="#ff8a1a" stop-opacity=".8"/></radialGradient>
+ <radialGradient id="halo"><stop offset="0" stop-color="#fff6d0" stop-opacity=".95"/><stop offset=".25" stop-color="#ffd27a" stop-opacity=".55"/><stop offset=".6" stop-color="#ff8c2a" stop-opacity=".18"/><stop offset="1" stop-color="#ff5a1f" stop-opacity="0"/></radialGradient>
+ <radialGradient id="rgTeal"><stop offset="0" stop-color="#e9fff8"/><stop offset=".35" stop-color="#4fc3b0"/><stop offset="1" stop-color="#1b7f73"/></radialGradient>
+ <filter id="soft"><feGaussianBlur stdDeviation="2.2"/></filter>`;
 
-const diya=(g,x,y,s)=>{const d=el(g,'g',{transform:`translate(${x} ${y}) scale(${s})`});
-  el(d,'ellipse',{cx:0,cy:-50,rx:80,ry:90,fill:'url(#warm)',opacity:.55});
-  el(d,'path',{d:'M-46,-2 Q-38,28 0,30 Q38,28 46,-2 Q22,5 0,5 Q-22,5 -46,-2Z',fill:'url(#clay)'});
-  el(d,'path',{d:'M44,-3 Q58,-12 64,-18 Q56,-2 40,6Z',fill:'#8f2f12'});
-  el(d,'ellipse',{cx:0,cy:-1,rx:46,ry:7,fill:'#e9a93a'});
-  el(d,'path',{d:'M-30,14 Q0,24 30,14',stroke:'#ffd77a','stroke-width':1.6,fill:'none','stroke-dasharray':'3 4'});
-  el(d,'ellipse',{cx:58,cy:-50,rx:20,ry:38,fill:'#ffb347',opacity:.5,filter:'url(#b3)'});
-  el(d,'path',{d:'M58,-78 C72,-48 70,-22 58,-16 C46,-22 44,-48 58,-78Z',fill:'url(#flame)'});
-  el(d,'path',{d:'M58,-48 C63,-36 62,-24 58,-21 C54,-24 53,-36 58,-48Z',fill:'#fff'});
-  return d;};
-const lotus=(g,x,y,s)=>{const d=el(g,'g',{transform:`translate(${x} ${y}) scale(${s})`});
-  el(d,'ellipse',{cx:0,cy:6,rx:38,ry:7,fill:'#1f5e3a',opacity:.9});
-  [[-26,-8,-40],[26,-8,40],[-14,-14,-18],[14,-14,18],[0,-18,0]].forEach(([px,py,r],i)=>
-    el(d,'path',{d:'M0,0 C10,-14 8,-30 0,-38 C-8,-30 -10,-14 0,0Z',fill:i<2?'#f48fb1':'#fbc4d8',stroke:'#c2185b','stroke-width':.8,transform:`translate(${px*.6} ${py*.2+4}) rotate(${r})`}));
+// ---- flower rangoli (marigold + rose petals), drawn flat then tilted into perspective ----
+const RX=540, RY=1150, TILT=.215;
+el(fg,'ellipse',{cx:RX,cy:RY+6,rx:520,ry:520*TILT+18,fill:'#000',opacity:.35,filter:'url(#b8)'});
+const rgl=el(fg,'g',{transform:`translate(${RX} ${RY}) scale(.94 ${TILT})`});
+el(rgl,'circle',{r:500,fill:'#2b0d1e'});
+// outer marigold ring
+for(let ring=0;ring<3;ring++){const rr=480-ring*26, n=Math.round(rr/5.5);
+  for(let i=0;i<n;i++){const a=i/n*Math.PI*2+ring*.3;
+    el(rgl,'circle',{cx:Math.cos(a)*rr,cy:Math.sin(a)*rr,r:15+R()*3,fill:ring==1?'#ffc300':(R()<.5?'#ff8c00':'#ff9f1c')});}}
+// rose-petal scallops
+for(let i=0;i<16;i++){const a=i/16*360;const g=el(rgl,'g',{transform:`rotate(${a})`});
+  for(let k=0;k<26;k++){const t=R(), w=(1-Math.abs(t-.5)*2);
+    el(g,'ellipse',{cx:(R()-.5)*90*w,cy:-260-t*140,rx:12,ry:8,fill:R()<.5?'#c2185b':'#ad1457',transform:`rotate(${R()*180})`});}}
+// white rice / jasmine dot ring
+for(let i=0;i<90;i++){const a=i/90*Math.PI*2;el(rgl,'circle',{cx:Math.cos(a)*245,cy:Math.sin(a)*245,r:6,fill:'#fff6e6'});}
+// teal centre with marigold petals
+el(rgl,'circle',{r:230,fill:'url(#rgTeal)'});
+for(let i=0;i<12;i++) el(rgl,'path',{d:'M0,-60 C40,-110 40,-180 0,-215 C-40,-180 -40,-110 0,-60Z',fill:'#ffb703',opacity:.9,transform:`rotate(${i*30})`});
+for(let i=0;i<12;i++) el(rgl,'path',{d:'M0,-70 C22,-110 22,-160 0,-190 C-22,-160 -22,-110 0,-70Z',fill:'#e85d04',transform:`rotate(${i*30})`});
+el(rgl,'circle',{r:62,fill:'#fff3d6'});
+// small clay diyas around the rangoli rim (true perspective positions)
+const clay=(x,y,s)=>{const d=el(fg,'g',{transform:`translate(${x} ${y}) scale(${s})`});
+  el(d,'ellipse',{cx:0,cy:-30,rx:46,ry:52,fill:'url(#halo)',opacity:.7});
+  el(d,'path',{d:'M-30,0 Q-26,20 0,22 Q26,20 30,0Z',fill:'url(#clay)'});
+  el(d,'ellipse',{cx:0,cy:0,rx:30,ry:6,fill:'#c8641a'});el(d,'ellipse',{cx:0,cy:0,rx:24,ry:4,fill:'#ffcc66'});
+  el(d,'path',{d:'M0,-40 C10,-22 9,-6 0,-2 C-9,-6 -10,-22 0,-40Z',fill:'url(#bigFlame)'});};
+const rimPts=[];for(let i=0;i<14;i++){const a=i/14*Math.PI*2+.11;rimPts.push([RX+Math.cos(a)*478,RY+Math.sin(a)*505*TILT,Math.sin(a)]);}
+rimPts.filter(p=>p[2]<0).forEach(([x,y,z])=>clay(x,y,.55+.25*(z+1)/2));
+
+// ---- ornate golden diyas (inspired by the reference) ----
+let uid=0;
+const goldDiya=(x,y,w)=>{const id='dc'+(uid++);const rx=w/2, ry=w*.13, dep=w*.40;
+  const g=el(fg,'g',{transform:`translate(${x} ${y})`});
+  el(g,'ellipse',{cx:0,cy:-w*.35,rx:w*1.05,ry:w*1.1,fill:'url(#halo)',opacity:.75});
+  el(g,'ellipse',{cx:0,cy:dep+4,rx:rx*.8,ry:ry*.6,fill:'#000',opacity:.45,filter:'url(#b3)'});
+  const body=`M${-rx},0 C${-rx},${dep*.55} ${-rx*.5},${dep} 0,${dep} C${rx*.5},${dep} ${rx},${dep*.55} ${rx},0 Z`;
+  el(g,'clipPath',{id}).innerHTML=`<path d="${body}"/>`;
+  el(g,'path',{d:body,fill:'url(#gBody)'});
+  const dec=el(g,'g',{'clip-path':`url(#${id})`});
+  const arc=(yy,k=1)=>`M${-rx-4},${yy} Q0,${yy+ry*2.1*k} ${rx+4},${yy}`;
+  // bands
+  el(dec,'path',{d:arc(dep*.14),stroke:'#7a4206','stroke-width':w*.012,fill:'none'});
+  el(dec,'path',{d:arc(dep*.30),stroke:'#7a4206','stroke-width':w*.008,fill:'none'});
+  el(dec,'path',{d:arc(dep*.56,.8),stroke:'#7a4206','stroke-width':w*.008,fill:'none'});
+  el(dec,'path',{d:arc(dep*.74,.6),stroke:'#7a4206','stroke-width':w*.012,fill:'none'});
+  // dot row and zigzag/diamond rows follow the bowl curve
+  const curveY=(t,yy,k)=>yy+ry*2.1*k*(1-(t*2-1)**2)*.5*2*.5;
+  for(let i=0;i<=26;i++){const t=i/26,xx=-rx+t*2*rx;el(dec,'circle',{cx:xx,cy:curveY(t,dep*.22,1)+ry*.5,r:w*.009,fill:'#fff3c4'});}
+  let zz='';for(let i=0;i<=18;i++){const t=i/18,xx=-rx+t*2*rx,yb=curveY(t,dep*.30,1)+ry*.5;zz+=(i?'L':'M')+xx+','+(yb+(i%2?dep*.2:0));}
+  el(dec,'path',{d:zz,stroke:'#7a4206','stroke-width':w*.008,fill:'none'});
+  for(let i=0;i<=9;i++){const t=(i+.5)/10,xx=-rx+t*2*rx,yb=curveY(t,dep*.30,1)+ry*.5;el(dec,'circle',{cx:xx,cy:yb+dep*.06,r:w*.008,fill:'#fff3c4'});}
+  for(let i=0;i<=12;i++){const t=i/12,xx=-rx+t*2*rx,yb=curveY(t,dep*.56,.8)*1+ry*.35+dep*.09;
+    el(dec,'path',{d:`M${xx},${yb-dep*.07} l${w*.022},${dep*.07} l${-w*.022},${dep*.07} l${-w*.022},${-dep*.07}Z`,fill:'#8a4c08',opacity:.8});}
+  el(dec,'path',{d:body,fill:'url(#gShade)'});
+  el(dec,'ellipse',{cx:-rx*.45,cy:dep*.35,rx:rx*.12,ry:dep*.3,fill:'#fff',opacity:.35,filter:'url(#soft)'});
+  // rim + oil
+  el(g,'ellipse',{cx:0,cy:0,rx:rx,ry:ry,fill:'url(#gRim)'});
+  el(g,'ellipse',{cx:0,cy:ry*.1,rx:rx*.88,ry:ry*.72,fill:'#7a4206'});
+  el(g,'ellipse',{cx:0,cy:ry*.18,rx:rx*.84,ry:ry*.62,fill:'url(#oil)'});
+  for(let i=0;i<22;i++){const a=i/22*Math.PI*2;el(g,'circle',{cx:Math.cos(a)*rx*.94,cy:Math.sin(a)*ry*.92,r:w*.006,fill:'#fff6d0',opacity:.9});}
+  // wick + flame
+  const fh=w*.5;
+  el(g,'ellipse',{cx:0,cy:-fh*.45,rx:w*.22,ry:fh*.75,fill:'#ffe6a0',opacity:.35,filter:'url(#b8)'});
+  el(g,'path',{d:`M0,${-fh} C${w*.11},${-fh*.55} ${w*.1},${-fh*.08} 0,0 C${-w*.1},${-fh*.08} ${-w*.11},${-fh*.55} 0,${-fh}Z`,fill:'url(#bigFlame)',filter:'url(#b1)'});
+  el(g,'path',{d:`M0,${-fh*.55} C${w*.045},${-fh*.3} ${w*.04},${-fh*.06} 0,${-fh*.02} C${-w*.04},${-fh*.06} ${-w*.045},${-fh*.3} 0,${-fh*.55}Z`,fill:'#ffffff'});
+  el(g,'ellipse',{cx:0,cy:-fh*.03,rx:w*.025,ry:fh*.05,fill:'#ffcf80',opacity:.6});
+  el(g,'line',{x1:0,y1:0,x2:0,y2:-fh*.04,stroke:'#5a2c00','stroke-width':w*.008});
 };
-const petal=(g,x,y,c)=>el(g,'ellipse',{cx:x,cy:y,rx:6,ry:3,fill:c,transform:`rotate(${R()*180} ${x} ${y})`,opacity:.95});
+goldDiya(385,1102,185);
+goldDiya(695,1102,185);
+goldDiya(540,1132,255);
+// front rim clay diyas (in front of the gold ones)
+rimPts.filter(p=>p[2]>=0).forEach(([x,y,z])=>clay(x,y,.55+.25*(z+1)/2));
+// loose petals around
+const pc=['#ffb703','#fb8500','#ffd166','#c2185b'];
+for(let i=0;i<30;i++){const x=40+R()*1000,y=1250+R()*20;el(fg,'ellipse',{cx:x,cy:y,rx:6,ry:3,fill:pc[i%4],opacity:.9,transform:`rotate(${R()*180} ${x} ${y})`});}
 
-const items=[['d',300,1150,1.25],['d',540,1120,1.55],['d',790,1150,1.25],['d',130,1200,.95],['d',950,1205,.95],['l',420,1215,.9],['l',680,1225,1.0],['d',540,1255,.8]];
-// reflections
-const rg=el(fg,'g',{mask:'url(#reflMask)',filter:'url(#b3)'});
-items.forEach(([k,x,y,s])=>{const g=el(rg,'g',{transform:`translate(0 ${2*y+40*s}) scale(1 -1)`});k=='d'?diya(g,x,y,s):lotus(g,x,y,s);});
-// marigold petals on water
-const pc=['#ffb703','#fb8500','#ffd166','#ff4d6d'];
-for(let i=0;i<55;i++){const x=R()*1080,y=1090+R()*200;petal(fg,x,y,pc[i%4]);}
-// real objects
-items.forEach(([k,x,y,s])=>k=='d'?diya(fg,x,y,s):lotus(fg,x,y,s));
-// ripple rings under diyas
-items.filter(i=>i[0]=='d').forEach(([k,x,y,s])=>{for(let j=1;j<=2;j++) el(fg,'ellipse',{cx:x,cy:y+30*s,rx:60*s*j,ry:8*s*j,fill:'none',stroke:'#ffc56b','stroke-width':1,opacity:.35/j});});
-
+// ---- hanging marigold strings on both edges (outside the arch) ----
+const mg2=(x,y,r,c1,c2)=>{const g=el(fg,'g',{});
+  for(let i=0;i<12;i++){const a=i/12*Math.PI*2;el(g,'circle',{cx:x+Math.cos(a)*r*.5,cy:y+Math.sin(a)*r*.5,r:r*.52,fill:i%2?c1:c2});}
+  el(g,'circle',{cx:x,cy:y,r:r*.42,fill:c2});el(g,'circle',{cx:x,cy:y,r:r*.12,fill:'#9a3412'});};
+[[22,0],[1058,1]].forEach(([x])=>{for(let j=0;j<22;j++){const y=60+j*30;mg2(x+Math.sin(j*.9)*2,y,16,j%3?'#ff9f1c':'#ffd60a',j%3?'#ffbf00':'#ff7b00');
+  if(j%5==2){el(fg,'path',{d:`M${x},${y} q-14,8 -6,24 q10,-6 6,-24z`,fill:'#2f9e44'});}}
+  el(fg,'path',{d:`M${x-8},${60+22*30} l8,16 l8,-16z`,fill:'#e63946'});});
 
 // ---- story medallions: Rama (left) & Krishna (right) ----
 const medal=(x,y)=>{const g=el(fg,'g',{transform:`translate(${x} ${y})`});
